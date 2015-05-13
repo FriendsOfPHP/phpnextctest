@@ -1,0 +1,54 @@
+
+!IFNDEF MACHINE
+!IF "$(PROCESSOR_ARCHITECTURE)"=="AMD64"
+MACHINE=x64
+!ELSE
+MACHINE=x86
+!ENDIF
+!ENDIF
+
+!IFNDEF DEBUG
+DEBUG=no
+!ENDIF
+
+!IFNDEF CC
+CC=cl.exe
+!ENDIF
+
+!IFNDEF AR
+AR=lib.exe
+!ENDIF
+
+!IFNDEF LINK
+LINK=link.exe
+!ENDIF
+
+
+INC = /Iinclude
+
+!IF "$(DEBUG)"=="yes"
+CFLAGS = /nologo /MDd /LDd /Od /Zi /D_DEBUG /RTC1 /W3 /GS /Gm
+ARFLAGS = /nologo
+LDFLAGS = /nologo /debug /nodefaultlib:msvcrt
+!ELSE
+CFLAGS = /nologo /MD /O2 /Zi /DNDEBUG /W3 /Gm- /GS /Gy /Oi /GL /MP
+ARFLAGS = /nologo /LTCG
+LDFLAGS = /nologo /LTCG /DYNAMICBASE /incremental:no /debug /opt:ref,icf
+!ENDIF
+
+all: designated_initializers
+
+designated_initializers:
+	$(CC) $(INC) $(CFLAGS) /c designated_initializers.c
+	$(LINK) $(LDFLAGS) /OUT:designated_initializers.exe designated_initializers.obj
+
+run_all: all
+	designated_initializers.exe
+
+clean:
+	del /Q *.obj
+	del /Q *.lib
+	del /Q *.exe
+	del /Q *.dll
+	del /Q *.pdb
+
