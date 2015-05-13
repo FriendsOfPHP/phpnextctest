@@ -8,18 +8,19 @@ endif # debug
 
 all: designated_initializers compound_literals test0
 
-designated_initializers: designated_initializers.c
+designated_initializers:: ./designated_initializers.c
 	$(CC) $(CFLAGS) -o designated_initializers designated_initializers.c
 
-compound_literals: compound_literals.c
+compound_literals:: ./compound_literals.c
 	$(CC) $(CFLAGS) -o compound_literals compound_literals.c
 
-compound_literals: test0.c
+compound_literals:: ./test0.c
 	$(CC) $(CFLAGS) -o test0 test0.c
 
 run_all: all
 	./designated_initializers
 	./compound_literals
+	./test0
 
 clean: 
 	rm -f unit *.o designated_initializers compound_literals test0
