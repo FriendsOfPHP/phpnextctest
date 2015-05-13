@@ -1,0 +1,22 @@
+
+.SUFFIXES: .cpp .o .c .h
+ifeq ($(DEBUG),1)
+CFLAGS = -fPIC  -std=c99 -ggdb -march=native -Wall -Wextra -pedantic
+else
+CFLAGS = -fPIC -std=c99 -O3 -march=native -Wall -Wextra -pedantic
+endif # debug
+
+all: designated_initializers compound_literals
+
+designated_initializers: designated_initializers.c
+	$(CC) $(CFLAGS) -o designated_initializers designated_initializers.c
+
+compound_literals: compound_literals.c
+	$(CC) $(CFLAGS) -o compound_literals compound_literals.c
+
+run_all: all
+	./designated_initializers
+	./compound_literals
+
+clean: 
+	rm -f unit *.o designated_initializers compound_literals
