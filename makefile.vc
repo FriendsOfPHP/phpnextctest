@@ -36,7 +36,7 @@ ARFLAGS = /nologo /LTCG
 LDFLAGS = /nologo /LTCG /DYNAMICBASE /incremental:no /debug /opt:ref,icf
 !ENDIF
 
-all: designated_initializers compound_literals
+all: designated_initializers compound_literals test0
 
 designated_initializers:
 	$(CC) $(INC) $(CFLAGS) /c designated_initializers.c
@@ -46,9 +46,14 @@ compound_literals:
 	$(CC) $(INC) $(CFLAGS) /c compound_literals.c
 	$(LINK) $(LDFLAGS) /OUT:compound_literals.exe compound_literals.obj
 
+test0:
+	$(CC) $(INC) $(CFLAGS) /c test0.c
+	$(LINK) $(LDFLAGS) /OUT:test0.exe test0.obj
+
 run_all: all
 	designated_initializers.exe
 	compound_literals.exe
+	test0.exe
 
 clean:
 	del /Q *.obj
